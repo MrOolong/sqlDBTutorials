@@ -1,0 +1,33 @@
+
+    public partial class FrmMain : Form
+    {
+        SqlConnection connection;
+        string connectionString;
+
+        public FrmMain()
+        {
+            InitializeComponent();
+
+            connectionString = ConfigurationManager.ConnectionStrings["Cookbook1.Properties.Settings.Cookbook1ConnectionString"].ConnectionString;
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e)
+        {
+            PopulateRecipes();
+        }
+
+        private void PopulateRecipes()
+        {
+            using (connection = new SqlConnection(connectionString))
+            using (SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM Recipe", connection))
+            {
+                // connection.Open(); //uneeded when using SqlDataAdapter
+
+                DataTable recipeTable = new DataTable();
+                adapter.Fill(recipeTable);
+
+                lstRecipes.DisplayMember = "Name";
+                lstRecipes.ValueMember = "Id";
+                lstRecipes.DataSource = recipeTable;
+            }
+        }
