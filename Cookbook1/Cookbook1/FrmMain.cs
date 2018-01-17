@@ -14,7 +14,7 @@ namespace Cookbook1
 {
     public partial class FrmMain : Form
     {
-        SqlConnection connection;
+        SqlConnection connection;   
         string connectionString;
 
         public FrmMain()
